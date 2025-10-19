@@ -31,28 +31,22 @@ import userRoutes from "./routes/user_routes.js";
 dotenv.config();
 const app = express();
 
-// Needed for __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(cors());
 app.use(express.json());
 
-// Connect to DB
 connectDB();
 
-// Optional: simple root route
 app.get("/", (req, res) => {
   res.send("API is running!");
 });
 
-// API routes
-app.use("/api/users", userRoutes);
+app.use("/", userRoutes);
 
-// Serve React build as static files
 app.use(express.static(path.join(__dirname, "client/build")));
 
-// Redirect all other routes to React's index.html
 app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });

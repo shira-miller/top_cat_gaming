@@ -38,7 +38,7 @@ const Leaderboard = () => {
         try {
             const confirmDelete = window.confirm(`are you sure you want to delete${user.name}?`);
             if (!confirmDelete) return;
-            await axios.delete(`api/users/${user._id}`);
+            await axios.delete(`http://localhost:5000/${user._id}`);
             setTopUsers((prev) => prev.filter((u) => u._id !== user._id));
             alert(`user "${user.name}" deleted successfully`);
         } catch (err) {
@@ -50,10 +50,10 @@ const Leaderboard = () => {
     const handleSubmit = async () => {
         try {
             if (dialogMode === "add") {
-                await axios.post("api/users", form);
+                await axios.post("http://localhost:5000", form);
                 alert("the user has been added successfully!");
             } else if (dialogMode === "update" && selectedUser?._id) {
-                await axios.put(`api/users/${selectedUser._id}`, form);
+                await axios.put(`http://localhost:5000/${selectedUser._id}`, form);
                 alert("the user has been updated successfully!");
             }
             setOpenDialog(false);
@@ -65,11 +65,11 @@ const Leaderboard = () => {
     };
 
     useEffect(() => {
-        axios.get("api/users/top")
+        axios.get("http://localhost:5000/top")
             .then(res => setTopUsers(res.data))
             .catch(err => console.error(err));
 
-        axios.get("api/users/smallest")
+        axios.get("http://localhost:5000/smallest")
             .then(res => setsmallestUsers(res.data))
             .catch(err => console.error(err));
     }, []);
@@ -83,26 +83,26 @@ const Leaderboard = () => {
 
     return (
         <Box
-            sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100vw",
-                height: "100vh",
-                backgroundColor: "#f0f0f0",
-            }}
-        >
-            <Box
-                sx={{
-                    width: 550,
-                    background: "linear-gradient(180deg, #6B46C1 0%, #553C9A 100%)",
-                    borderRadius: 4,
-                    p: 3,
-                    color: "white",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
-                    border: "3px solid #FFD700",
-                }}
-            >
+    sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "#f0f0f0",
+    }}
+>
+    <Box
+        sx={{
+            width: 550,
+            background: "linear-gradient(180deg, #6B46C1 0%, #553C9A 100%)",
+            borderRadius: 4,
+            p: 3,
+            color: "white",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
+            border: "3px solid #FFD700",
+        }}
+    >
 
                 <Box sx={{ textAlign: "center", mb: 3, position: "relative" }}>
                     <Typography sx={{ fontSize: 40, mb: -1 }}>👑</Typography>
