@@ -4,10 +4,10 @@ export async function addUser(name, image, score = 0) {
   return await User.create({ name, image, score });
 }
 
-export async function updateUserScore(id, score) {
-  const updated = await User.findByIdAndUpdate(id, { score }, { new: true });
-  return updated;
-}
+// export async function updateUserScore(id, score) {
+//   const updated = await User.findByIdAndUpdate(id, { score }, { new: true });
+//   return updated;
+// }
 
 export async function getTopUsers(limit = 10) {
   return await User.find({}, { name: 1, image: 1, score: 1 })
@@ -33,8 +33,20 @@ export async function getUserWithNeighbors(userId) {
   return { user, rank, above, below };
 }
 
-export async function getLastUsers(limit = 3) {
+export async function getsmallestUsers(limit = 3) {
   return await User.find({}, { name: 1, image: 1, score: 1 })
-    .sort({ _id: -1 })
+    .sort({ score: 1 })
     .limit(limit);
+}
+
+export async function deleteUser(id) {
+  return await User.findByIdAndDelete(id);
+}
+
+export async function getUserById(id) {
+  return await User.findById(id);
+}
+
+export async function updateUser(id, updateData) {
+  return await User.findByIdAndUpdate(id, updateData, { new: true });
 }

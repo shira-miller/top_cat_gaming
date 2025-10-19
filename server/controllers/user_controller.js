@@ -1,9 +1,12 @@
 import {
   addUser,
-  updateUserScore,
+  // updateUserScore,
   getTopUsers,
   getUserWithNeighbors,
-  getLastUsers
+  getsmallestUsers,
+  deleteUser,
+  getUserById,
+  updateUser
 } from "../services/user_service.js";
 
 export async function addUserController(req, res) {
@@ -16,16 +19,16 @@ export async function addUserController(req, res) {
   }
 }
 
-export async function updateScoreController(req, res) {
-  try {
-    const { id } = req.params;
-    const { score } = req.body;
-    const updated = await updateUserScore(id, score);
-    res.json(updated);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-}
+// export async function updateScoreController(req, res) {
+//   try {
+//     const { id } = req.params;
+//     const { score } = req.body;
+//     const updated = await updateUserScore(id, score);
+//     res.json(updated);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// }
 
 export async function getTopController(req, res) {
   try {
@@ -48,13 +51,47 @@ export async function getUserAroundController(req, res) {
   }
 }
 
-export async function getLastUsersController(req, res) {
+export async function getsmallestUsersController(req, res) {
   try {
     const limit = parseInt(req.query.limit) || 3;
-    const users = await getLastUsers(limit);
+    const users = await getsmallestUsers(limit);
     res.json(users);
   } catch (err) {
     console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+}
+
+export async function deleteUserController(req, res) {
+  try {
+    const { id } = req.params;
+    const deleted = await deleteUser(id);
+    if (!deleted) return res.status(404).json({ message: "User not found" });
+    res.json({ message: "User deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
+export async function getUserByIdController(req, res) {
+  try {
+    const { id } = req.params;
+    const user = await getUserById(id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }   
+}
+
+export async function updateUserController(req, res) {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+    const updatedUser = await updateUser(id, updateData);
+    if (!updatedUser) return res.status(404).json({ message: "User not found" });
+    res.json(updatedUser);
+  } catch (err) {
     res.status(500).json({ message: err.message });
   }
 }
