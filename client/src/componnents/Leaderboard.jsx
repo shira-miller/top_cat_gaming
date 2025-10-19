@@ -38,7 +38,7 @@ const Leaderboard = () => {
         try {
             const confirmDelete = window.confirm(`are you sure you want to delete${user.name}?`);
             if (!confirmDelete) return;
-            await axios.delete(`http://localhost:5000/api/users/${user._id}`);
+            await axios.delete(`https://top-cat-gaming.onrender.com/api/users/${user._id}`);
             setTopUsers((prev) => prev.filter((u) => u._id !== user._id));
             alert(`user "${user.name}" deleted successfully`);
         } catch (err) {
@@ -50,10 +50,10 @@ const Leaderboard = () => {
     const handleSubmit = async () => {
         try {
             if (dialogMode === "add") {
-                await axios.post("http://localhost:5000/api/users", form);
+                await axios.post("https://top-cat-gaming.onrender.com/api/users", form);
                 alert("the user has been added successfully!");
             } else if (dialogMode === "update" && selectedUser?._id) {
-                await axios.put(`http://localhost:5000/api/users/${selectedUser._id}`, form);
+                await axios.put(`https://top-cat-gaming.onrender.com/api/users/${selectedUser._id}`, form);
                 alert("the user has been updated successfully!");
             }
             setOpenDialog(false);
@@ -65,11 +65,11 @@ const Leaderboard = () => {
     };
 
     useEffect(() => {
-        axios.get("http://localhost:5000/api/users/top")
+        axios.get("https://top-cat-gaming.onrender.com/api/users/top")
             .then(res => setTopUsers(res.data))
             .catch(err => console.error(err));
 
-        axios.get("http://localhost:5000/api/users/smallest")
+        axios.get("https://top-cat-gaming.onrender.com/api/users/smallest")
             .then(res => setsmallestUsers(res.data))
             .catch(err => console.error(err));
     }, []);
