@@ -1,15 +1,22 @@
-const express = require("express");
-const path = require("path");
-const http = require("http");
-const cors = require("cors"); 
-const { routesInit } = require("./routes/config_routes");
-require("./db/connect");
-const app1 = express();
-app1.use(cors()); 
-app1.use(express.json());
-app1.use(express.static(path.join(__dirname, "public")));
-routesInit(app1);
-const server1 = http.createServer(app1);
-console.log(process.env.PORT);
-let port1 = process.env.PORT || "5000";
-server1.listen(port1);
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import { connectDB } from "./db/connect.js";
+import userRoutes from "./routes/user_routes.js";
+
+dotenv.config();
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+connectDB();
+
+app.get("/", (req, res) => {
+  res.send("API is running!");
+});
+
+app.use("/api/users", userRoutes);
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
