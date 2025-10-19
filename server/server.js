@@ -1,32 +1,33 @@
 import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
 import path from "path";
+import http from "http";
+import cors from "cors";
+import { routesInit } from "./routes/config_routes.js";
+import "./db/mongoConnect.js";
 import { fileURLToPath } from "url";
-import { connectDB } from "./db/connect.js";
-import userRoutes from "./routes/user_routes.js";
 
-dotenv.config();
-const app = express();
-
+// __dirname ב‑ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// יצירת אפליקציה
+const app = express();
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-connectDB();
+// Static files
+app.use(express.static(path.join(__dirname, "public")));
 
-// API routes
-app.use("/api/users", userRoutes);
+// Routes
+routesInit(app);
 
-// Serve React build
-app.use(express.static(path.join(__dirname, "client/build")));
+// יצירת שרת HTTP
+const server = http.createServer(app);
 
-// All other routes go to React
-app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build", "index.html"));
-});
-
+// Port
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
