@@ -3,7 +3,7 @@ import path from "path";
 import http from "http";
 import cors from "cors";
 import { routesInit } from "./routes/config_routes.js";
-import "./db/mongoConnect.js";
+import "./db/connect.js";
 import { fileURLToPath } from "url";
 
 // __dirname ב‑ESM
