@@ -1,26 +1,15 @@
-import express from "express";
-import path from "path";
-import http from "http";
-import cors from "cors";
-import { routesInit } from "./routes/config_routes.js";
-import "./db/connect.js";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-app.use(express.static(path.join(__dirname, "public")));
-
-routesInit(app);
-
-const server = http.createServer(app);
-
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const express = require("express");
+const path = require("path");
+const http = require("http");
+const cors = require("cors"); 
+const { routesInit } = require("./routes/config_routes");
+require("./db/connect");
+const app1 = express();
+app1.use(cors()); 
+app1.use(express.json());
+app1.use(express.static(path.join(__dirname, "public")));
+routesInit(app1);
+const server1 = http.createServer(app1);
+console.log(process.env.PORT);
+let port1 = process.env.PORT || "5000";
+server1.listen(port1);
