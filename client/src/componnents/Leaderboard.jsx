@@ -116,7 +116,7 @@ const Leaderboard = () => {
                 </Box>
 
                 <Stack direction="row" spacing={1} justifyContent="center" sx={{ mb: 3 }}>
-                    {smallestUsers.map((user, i) => (
+                    {smallestUsers&&smallestUsers.map((user, i) => (
                         <Paper
                             key={user._id}
                             sx={{
@@ -159,7 +159,7 @@ const Leaderboard = () => {
                 </Paper>
 
                 <Box sx={{ maxHeight: 300, overflowY: "auto" }}>
-                    {topUsers.map((user, idx) => (
+                    {topUsers&&topUsers.map((user, idx) => (
                         <Paper
                             key={user._id}
                             sx={{
