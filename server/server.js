@@ -24,7 +24,7 @@ app.use("/api/users", userRoutes);
 app.use(express.static(path.join(__dirname, "client/build")));
 
 // All other routes go to React
-app.get("*", (req, res) => {
+app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 
